@@ -31,7 +31,7 @@ class Order(models.Model):
         ordering = ['-created_at', ]
 
     def __str__(self):
-        return self.first_name
+        return str(self.id)
 
 
 class OrderItem(models.Model):
@@ -42,3 +42,12 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return '%s' % self.id
+
+
+class CancelledOrder(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=True, null=True)
+    reason_for_cancellation = models.CharField(max_length=200, blank=True, null=True)
+
+    def __str__(self):
+        return '%s' % self.order
+

@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Order, OrderItem
+from .models import Order, CancelledOrder
 from .serializers import OrderSerializer, MyOrderSerializer
 
 
@@ -38,3 +38,17 @@ class OrdersList(APIView):
         orders = Order.objects.filter(user=request.user)
         serializer = MyOrderSerializer(orders, many=True)
         return Response(serializer.data)
+
+
+@api_view(['POST'])
+@authentication_classes([authentication.TokenAuthentication])
+@permission_classes([permissions.IsAuthenticated])
+def cancel_order(request):
+    order_id = request.data['order_id']
+    order = Order.objects.get(pk=order_id)
+    order.order_status = "CAN"
+    order.save()
+    cancelled_order = CancelledOrder()
+    cancelled_order.order = order
+    cancelled_order.save()
+    return Response("Order Cancelled")
