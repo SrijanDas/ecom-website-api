@@ -28,7 +28,8 @@ class MyOrderSerializer(serializers.ModelSerializer):
             "place",
             "phone",
             "items",
-            "paid_amount"
+            "paid_amount",
+            "order_status"
         )
 
 
@@ -57,6 +58,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "place",
             "phone",
             "items",
+
         )
 
     def create(self, validated_data):
