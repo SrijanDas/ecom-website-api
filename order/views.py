@@ -45,10 +45,12 @@ class OrdersList(APIView):
 @permission_classes([permissions.IsAuthenticated])
 def cancel_order(request):
     order_id = request.data['order_id']
+    reason = request.data['reason']
     order = Order.objects.get(pk=order_id)
     order.order_status = "CAN"
     order.save()
     cancelled_order = CancelledOrder()
     cancelled_order.order = order
+    cancelled_order.reason_for_cancellation = reason
     cancelled_order.save()
     return Response("Order Cancelled")
