@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Product, Category
-from .serializers import ProductSerializer, CategorySerializer
+from .serializers import ProductSerializer, CategorySerializer, CategoryListSerializer
 from django.db.models import Q
 
 # Create your views here.
@@ -11,7 +11,7 @@ from django.db.models import Q
 
 class LatestProductsList(APIView):
     def get(self, request):
-        products = Product.objects.all()[:4]
+        products = Product.objects.all()[:20]
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
@@ -51,3 +51,10 @@ def search(request):
         return Response(serializer.data)
     else:
         return Response({"products": []})
+
+@api_view(['Get'])
+def get_category_list(request):
+    categories = Category.objects.all()
+    serializer = CategoryListSerializer(categories, many=True)
+    print("\n\n", serializer, "\n\n")
+    return Response(serializer.data)

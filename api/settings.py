@@ -1,3 +1,4 @@
+import os.path
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -13,7 +14,7 @@ SECRET_KEY = 'django-insecure-uqh-#t9g$5tix*4ty=!=03+!x)1aatb9_q^&%pazqz%rkrt!fx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["ecom-test-api.herokuapp.com"]
+ALLOWED_HOSTS = ["ecom-test-api.herokuapp.com", "127.0.0.1", "localhost:8000"]
 
 
 # Application definition
@@ -31,7 +32,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'corsheaders',
-
 
     # apps
     'product',
@@ -125,9 +125,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = "staticfiles"
+# STATIC_ROOT = "staticfiles"
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
